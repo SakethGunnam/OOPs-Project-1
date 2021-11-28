@@ -291,197 +291,306 @@ public:
 
 class college_Instructor
 {
+	
+	private:
+		
+	    string userID;
+		string instr_Password;
+		
+	public:
+		
+		void login();
+		
+		void add_Company();
+		
+		void delete_line(const char *file_name, int);
+		
+		void remove_Company();
+		
+		void update_Company();	
+		
+		void admin_View();
 
-private:
-	string userID;
-	string instr_Password;
-
-public:
-	void login();
-
-	void add_Company();
-
-	void remove_Company();
-
-	void update_Company();
 };
 
-void college_Instructor ::login()
+void college_Instructor :: login()
 {
-Start:
-
-	while (attempts < 3)
-	{
-		cout << "\nEnter your Instructor ID : ";
-		cin >> userID;
-		cout << "Enter the Instructor Password : ";
-		cin >> instr_Password;
-
-		if (userID == "Admin" && instr_Password == "a1b2c3d4e5")
-		{
-			cout << "\nWelcome Instructor!\n";
-
-			cout << "\nAccessible Operations: \n\n1. Add Company\n"
-				 << "2. Remove Company \n3. Update Company\n"
-				 << "4. Exit \n\nEnter option: ";
-			cin >> ch;
-
-			while (ch != 4)
+	Start:
+		
+	    while(attempts < 3)
+	    {
+			cout<<"\nEnter your Instructor ID : ";
+			cin>> userID;
+			cout<<"Enter the Instructor Password : ";
+			cin>> instr_Password;
+			
+			if(userID == "Admin" && instr_Password == "a1b2c3d4e5")
 			{
-				if (ch == 1)
-				{
-					add_Company();
+				cout <<"\nWelcome Instructor!\n";
+				
+				cout << "\nAccessible Operations: \n\n1. Add Company\n"
+			    << "2. Remove Company \n3. Update Company\n"
+			    << "4. Admin View \n5. Exit \n\nEnter option: ";
+		        cin >> ch;
+		        
+		        while(ch != 5)
+		        {
+		        	if(ch == 1)
+		        	{
+		        		add_Company();
+					}
+					else if(ch == 2)
+					{
+						remove_Company();
+					}
+					else if(ch == 3)
+					{
+						update_Company();
+					}
+					else if(ch == 4)
+					{
+						admin_View();
+					}
 				}
-				else if (ch == 2)
-				{
-					remove_Company();
-				}
-				else if (ch == 3)
-				{
-					update_Company();
-				}
+				break;
+		    }
+		    else
+		    {
+		        cout <<"\nInvalid login attempt. Please try again.\n";
+                attempts++;
+                goto Start;
 			}
-			break;
-		}
-		else
-		{
-			cout << "\nInvalid login attempt. Please try again.\n";
-			attempts++;
-			goto Start;
-		}
-	}
-
-	if (attempts == 3)
-	{
-		cout << "\nToo many login attempts! The program will now terminate.\n";
-	}
+	    }
+	    
+	    if (attempts == 3)
+        {
+            cout <<"\nToo many login attempts! The program will now terminate.\n";
+        }
 }
 
-void college_Instructor ::add_Company()
+void college_Instructor :: add_Company()
 {
 	string Job_description, Work_location, Due_date, Field;
 	int Max_backlogs;
 	float CGPA, Min_12th, Min_10th;
 	char Offer_type;
-
+	
 	string empty = "00";
-
+	
 	ifstream f("Companies.txt");
 	string line;
-
-	for (int i = 0; std::getline(f, line); ++i)
+	
+	for (int i = 0; std::getline(f, line); ++i) 
 	{
 		count_n++;
-	}
-
-	cout << "Enter the number of Companies:";
-	cin >> n;
-
+    }
+	
+	cout<<"\nEnter the number of Companies:";
+	cin>>n;
+	
 	count_n = count_n + n;
-
-	for (i = 0; i < n; i++)
+	
+	for (i = 0; i < n; i++) 
 	{
 		ofstream outfile;
 		outfile.open("Companies.txt", ios::app);
 		// The entire data of a single company is stored line-by-line.
-
-		cout << "Enter the Name of the Company: ";
+	
+		outfile<< i+1 << "." << "\t";
+		cout << "\nEnter the Name of the Company: ";
 		cin >> Name;
-		outfile << Name << "\t";
+		outfile << Name << "\t\t";
 
 		cout << "Enter the Job description: ";
 		cin >> Job_description;
+		
+		int len = strlen(data);
 
-		// while (len < 5)
-		//{
-		// data[len] = ' ';
-		// len = len + 1;
-		//}
+		while (len < 15) 
+		{
+			data[len] = ' ';
+			len = len + 1;
+	    }
 		outfile << Job_description << "\t";
 
 		cout << "Enter the Work Location: ";
 		cin >> Work_location;
 
 		outfile << Work_location << "\t";
-
+		
 		cout << "Enter the Last Date to Apply: ";
 		cin >> Due_date;
-
+		
 		outfile << Due_date << "\t";
-
+		
 		cout << "Enter the CGPA Requirements: ";
 		cin >> CGPA;
-
+		
 		outfile << CGPA << "\t";
-
+		
 		cout << "Enter the 12th Marks Requirements: ";
 		cin >> Min_12th;
-
+		
 		outfile << Min_12th << "\t";
-
+		
 		cout << "Enter the 10th Marks Requirements: ";
-		cin >> Min_10th;
-
+		cin >> Min_10th;	 
+		
 		outfile << Min_10th << "\t";
-
+		
 		cout << "Enter the total number of acceptable Backlogs: ";
 		cin >> Max_backlogs;
-
+		
 		outfile << Max_backlogs << "\t";
-
+		
 		cout << "Enter the Offer type: ";
 		cin >> Offer_type;
-
+		
 		outfile << Offer_type << "\t";
-
+		
 		cout << "Enter the Field of the Job: ";
 		cin >> Field;
-
+		
 		outfile << Field << endl;
+		
 	}
-
+	
 	login();
+	
 }
 
-void college_Instructor ::remove_Company()
+void college_Instructor :: delete_row(const char *file_name, int r)
 {
-	cout << "Enter the details:";
+    
+    ifstream is(file_name); //open the existing file to read
+  
+    
+    ofstream ofs; //open new file to write
+    ofs.open("Companies_new.txt", ofstream::out);
+  
+    
+    char c;
+    int row = 1;
+    while (is.get(c))
+    {
+	    
+        if (c == '\n')
+        row++;
+  
+        
+        if (row != r)
+            ofs << c;
+    }
+  
+   
+    ofs.close();
+  
+    
+    is.close();
+  
+    
+    remove(file_name);
+  
+    
+    rename("Companies_new", file_name);
+    
+    login();
 }
 
-void college_Instructor ::update_Company()
+void college_Instructor :: remove_Company()
 {
-
-	cout << "Enter the details:";
+	int n; //Still rough. Able to delete one row and create a new file but acting wierd after deleting two rows
+	cout<<"\nPlease enter the Row No. that needs to be erased: ";
+	cin>>n;
+        delete_row("Companies.txt", r);
 }
 
-cout << "\n-----------------------------------Welcome to the Student Placement Assitance Portal!-----------------------------------\n";
-Start : cout << "\nPlease choose your designated Account: \n\n1. Student\n"
-			 << "2. Company \n3. College Instructor \n4. Exit \n\nEnter your Choice: ";
-cin >> ch;
-
-while (attempts < 3 && ch != 4)
+void college_Instructor :: update_Company()
 {
-	if (ch == 1)
-	{
-		// Student S;
-	}
-	else if (ch == 2)
-	{
-		// Company C;
-	}
-	else if (ch == 3)
-	{
-		college_Instructor I;
-		I.login();
-	}
-	else
-	{
-		cout << "\nInvalid Choice. Please choose again.\n";
-		attempts++;
-		goto Start;
-	}
+	
+	//.............................CODE:?........................
+   
 }
-if (attempts == 3)
+
+void college_Instructor :: admin_View()
 {
-	cout << "\nPlease reload the page and try again! Thank you.\n";
+	char password[25];
+			cout <<"\n"<< "Enter the admin password: ";
+			cin >> password;
+
+			// This variable value can be changed according
+			// to your requirement of the administrator
+			// password.
+
+			string admin_pass = "a1b2c3d4e5";
+
+			if (strcmp(password, admin_pass.c_str()) == 0) 
+			{
+				cout << "\nCompany Name  "
+						"\tJob_Description \tWork_Location \tLDA \tCGPA \t12th_Marks \t10th_Marks \tMax_Backlogs \tOffer_Type \tField "<< endl;
+				ifstream infile;
+				infile.open("Companies.txt", ios::in);
+				char data[20];
+
+				while (infile >> data) {
+					cout << "\n"<< data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << "\t";
+					infile >> data;
+					cout << data << endl;
+				}
+			}
+			login();
+}
+
+int main()
+{
+	
+	cout<<"\n-----------------------------------Welcome to the Student Placement Assitance Portal!-----------------------------------\n";
+	Start:
+	cout<<"\nPlease choose your designated Account: \n\n1. Student\n"
+	<< "2. Company \n3. College Instructor \n4. Exit \n\nEnter your Choice: ";
+	cin>> ch;
+	
+	while(attempts < 3 && ch != 4)
+	{
+		if(ch == 1)
+		{
+			//Student S;
+		}
+		else if(ch == 2)
+		{
+			//Company C;
+		}
+		else if(ch == 3)
+		{
+			college_Instructor I;
+			I.login();
+		}
+		else
+		{
+			cout <<"\nInvalid Choice. Please choose again.\n";
+            attempts++;
+            goto Start;
+		}
+	}
+	if(attempts == 3)
+	{
+		cout <<"\nPlease reload the page and try again! Thank you.\n";
+	}
+	
 }
